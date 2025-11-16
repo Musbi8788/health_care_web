@@ -18,7 +18,7 @@
         <div class="container nav-container">
             <div class="logo">
                 <a href="#">
-                <span class="logo-icon"><img src="heartbeat.png" width="50" alt="Jayid botamed logo"></span></a>
+                <span class="logo-icon"><img src="{{ url_for('static', filename='heartbeat.png') }}" width="50" alt="Jayid botamed logo"></span></a>
                 <a href="#"><span class="logo-text">JAYID BOTAMED</span></a>
                 
             </div>
@@ -79,7 +79,7 @@
                 </div>
                 <div class="about-image">
                     <div class="image-placeholder">
-                        <img src="health.jpg" alt="">
+                        <img src="{{ url_for('static', filename='health.jpg') }}" alt="">
                     </div>
                 </div>
             </div>
@@ -191,7 +191,7 @@
                     </div>
                 </div>
                 <div class="contact-form-container">
-                    <form class="contact-form" id="contactForm">
+                    <form class="contact-form" id="contactForm" >
                         <div class="form-group">
                             <label for="name">Your Name</label>
                             <input type="text" id="name" name="name" required placeholder="Enter your name">
@@ -247,6 +247,6 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="script.js"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
