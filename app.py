@@ -7,7 +7,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)  # This is fine for localhost
+# CORS(app)  # This is fine for localhost
+CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 
 # Gmail credentials
 SENDER_EMAIL = os.getenv("SENDER_EMAIL")
