@@ -2,9 +2,9 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import smtplib
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 app = Flask(__name__)
 # CORS(app)  # This is fine for localhost
@@ -15,6 +15,11 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 SENDER_EMAIL = os.getenv("SENDER_EMAIL")
 SENDER_PASSWORD = os.getenv("SENDER_PASSWORD")
 RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL")
+
+print("Loaded sender:", SENDER_EMAIL)
+print("Loaded receiver:", RECEIVER_EMAIL)
+print("Loaded password is None?:", SENDER_PASSWORD is None)
+
 
 @app.route("/api/contact", methods=["POST"])
 def contact():
