@@ -130,7 +130,7 @@ function initializeApp() {
     });
 
     // ===============================================
-    // CONTACT FORM HANDLING - FIXED FOR NODE.JS
+    // CONTACT FORM HANDLING - PRODUCTION READY
     // ===============================================
 
     if (contactForm) {
@@ -163,8 +163,8 @@ function initializeApp() {
 
             // Determine the API URL based on environment
             const apiUrl = window.location.hostname === 'localhost' 
-                ? 'http://localhost:5000/api/contact' // For local development modify to production
-                : '/api/contact';
+                ? 'http://localhost:5000/api/contact' 
+                : 'https://jbhc.vercel.app/api/contact'; // YOUR PRODUCTION API
 
             console.log("🌐 Sending to:", apiUrl);
             console.log("📦 Data:", { name, phone, message });
@@ -180,7 +180,6 @@ function initializeApp() {
                 });
 
                 console.log("📡 Response status:", response.status);
-                console.log("📡 Response headers:", response.headers);
 
                 // Check if response is JSON
                 const contentType = response.headers.get("content-type");
@@ -195,8 +194,12 @@ function initializeApp() {
                 console.log("📦 Response data:", data);
 
                 if (response.ok) {
+                    // Show success message
                     alert("✅ Message sent successfully! We'll get back to you soon.");
                     contactForm.reset();
+                    
+                    // Optional: Show a nicer success message
+                    showSuccessMessage();
                 } else {
                     alert("❌ " + (data.error || "Error sending message. Please try again."));
                 }
@@ -206,7 +209,9 @@ function initializeApp() {
                     message: error.message,
                     stack: error.stack
                 });
-                alert("❌ Network error. Please check:\n1. Server is running\n2. CORS is enabled\n3. API endpoint is correct");
+                
+                // User-friendly error message
+                alert("❌ Unable to send message. Please try again or contact us directly at 7523834");
             } finally {
                 // Re-enable submit button
                 if (submitBtn) {
@@ -217,6 +222,43 @@ function initializeApp() {
         });
     } else {
         console.error("❌ Contact form not found! Check your HTML.");
+    }
+
+    // ===============================================
+    // SUCCESS MESSAGE DISPLAY (Optional)
+    // ===============================================
+    
+    function showSuccessMessage() {
+        // Create success notification
+        const successDiv = document.createElement('div');
+        successDiv.className = 'success-notification';
+        successDiv.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            <span>Message sent successfully! We'll contact you soon.</span>
+        `;
+        successDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #2E8B57;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideInRight 0.3s ease;
+        `;
+        
+        document.body.appendChild(successDiv);
+        
+        // Remove after 5 seconds
+        setTimeout(() => {
+            successDiv.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => successDiv.remove(), 300);
+        }, 5000);
     }
 
     // ===============================================
@@ -379,7 +421,7 @@ function initializeApp() {
 
     console.log('%c🌿 Jayid Botamed Health Care', 'font-size: 20px; color: #2E8B57; font-weight: bold;');
     console.log('%cWebsite loaded successfully!', 'font-size: 14px; color: #3CBEDC;');
-    console.log('%cFor support, call: 7523834 ', 'font-size: 12px; color: #6C757D;');
+    console.log('%cFor support, call: 7523834', 'font-size: 12px; color: #6C757D;');
     console.log('%cTheme: ' + (document.documentElement.getAttribute('data-theme') || 'light'), 'font-size: 12px; color: #2E8B57;');
 }
 
@@ -391,3 +433,34 @@ function initializeApp() {
 if (window.history.replaceState) {
     window.history.replaceState(null, null, window.location.href);
 }
+
+// ===============================================
+// ADD SUCCESS NOTIFICATION STYLES
+// ===============================================
+
+// Add keyframes for notification animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideInRight {
+        from {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOutRight {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);

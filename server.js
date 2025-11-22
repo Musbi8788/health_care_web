@@ -62,6 +62,12 @@ if (SENDER_EMAIL && SENDER_PASSWORD) {
   });
 }
 
+app.use(cors({
+    origin: ['http://localhost:3000', 'https://jbhc.vercel.app'],
+    methods: ['GET', 'POST'],
+    credentials: true
+}));
+
 // Serve static files - BEFORE routes
 // Serve static files
 app.use('/static', express.static(path.join(__dirname, 'static')));
@@ -71,14 +77,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// 404 handler for API routes
-// app.use('/api/*', (req, res) => {
-//   res.status(404).json({
-//     error: 'API endpoint not found',
-//     method: req.method,
-//     path: req.originalUrl
-//   });
-// });
+
 
 // Catch-all for SPA routing
 app.get('*', (req, res) => {
