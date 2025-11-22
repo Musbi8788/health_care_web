@@ -162,9 +162,11 @@ function initializeApp() {
             }
 
             // Determine the API URL based on environment
-            const apiUrl = window.location.hostname === 'localhost' 
-                ? 'http://localhost:5000/api/contact' 
-                : 'https://jbhc.vercel.app/api/contact'; // YOUR PRODUCTION API
+            const apiUrl = "/api/contact";
+
+            // const apiUrl = window.location.hostname === 'localhost' 
+            //     ? 'http://localhost:5000/api/contact' 
+            //     : 'https://jbhc.vercel.app/api/contact'; // YOUR PRODUCTION API
 
             console.log("🌐 Sending to:", apiUrl);
             console.log("📦 Data:", { name, phone, message });
