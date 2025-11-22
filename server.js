@@ -68,7 +68,7 @@ app.use('/static', express.static(path.join(__dirname, 'static')));
 
 // Home route
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'home.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // 404 handler for API routes
@@ -82,7 +82,7 @@ app.get('/', (req, res) => {
 
 // Catch-all for SPA routing
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'home.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 
@@ -195,8 +195,9 @@ This email was sent from the contact form at Jayid Botamed Health Care website.
 });
 
 // Home route - serves the HTML file
+
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'templates', 'home.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // 404 handler for API routes only
@@ -211,7 +212,7 @@ app.use('/api/*', (req, res) => {
 
 // Catch-all route - serve home.html for any other route (SPA support)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'templates', 'home.html'));
+  res.sendFile(path.join(__dirname,  'index.html'));
 });
 
 // Global error handler

@@ -163,7 +163,7 @@ function initializeApp() {
 
             // Determine the API URL based on environment
             const apiUrl = window.location.hostname === 'localhost' 
-                ? 'http://localhost:5000/api/contact' // For local development modify to production URL
+                ? 'http://localhost:5000/api/contact' // For local development modify to production
                 : '/api/contact';
 
             console.log("🌐 Sending to:", apiUrl);
