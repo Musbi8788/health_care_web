@@ -130,23 +130,21 @@ function initializeApp() {
     });
 
     // ===============================================
-    // CONTACT FORM HANDLING - FIXED
+    // CONTACT FORM HANDLING - FIXED FOR NODE.JS
     // ===============================================
 
     if (contactForm) {
         console.log("✅ Contact form found successfully");
         
         contactForm.addEventListener("submit", async (e) => {
-            e.preventDefault(); // Prevent default form submission
-            e.stopPropagation(); // Stop event bubbling
+            e.preventDefault();
+            e.stopPropagation();
             
             console.log("📝 Form submitted!");
 
             const name = document.getElementById("name").value.trim();
             const phone = document.getElementById("phone").value.trim();
             const message = document.getElementById("message").value.trim();
-
-            
 
             // Validate fields
             if (!name || !phone || !message) {
@@ -156,24 +154,45 @@ function initializeApp() {
 
             // Disable submit button to prevent double submission
             const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
             if (submitBtn) {
                 submitBtn.disabled = true;
-                submitBtn.textContent = "Sending...";
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
             }
 
+            // Determine the API URL based on environment
+            const apiUrl = window.location.hostname === 'localhost' 
+                ? 'http://localhost:5000/api/contact'
+                : '/api/contact';
+
+            console.log("🌐 Sending to:", apiUrl);
+            console.log("📦 Data:", { name, phone, message });
+
             try {
-                const response = await fetch("/api/contact", {
+                const response = await fetch(apiUrl, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
                     },
                     body: JSON.stringify({ name, phone, message })
                 });
 
-                console.log("Response status:", response.status);
+                console.log("📡 Response status:", response.status);
+                console.log("📡 Response headers:", response.headers);
+
+                // Check if response is JSON
+                const contentType = response.headers.get("content-type");
+                if (!contentType || !contentType.includes("application/json")) {
+                    console.error("❌ Response is not JSON:", contentType);
+                    const text = await response.text();
+                    console.error("Response text:", text);
+                    throw new Error("Server returned invalid response");
+                }
 
                 const data = await response.json();
-                console.log("Response data:", data);
+                console.log("📦 Response data:", data);
 
                 if (response.ok) {
                     alert("✅ Message sent successfully! We'll get back to you soon.");
@@ -182,13 +201,17 @@ function initializeApp() {
                     alert("❌ " + (data.error || "Error sending message. Please try again."));
                 }
             } catch (error) {
-                console.error("Fetch error:", error);
-                alert("❌ Network error. Please check your connection and try again.");
+                console.error("❌ Fetch error:", error);
+                console.error("Error details:", {
+                    message: error.message,
+                    stack: error.stack
+                });
+                alert("❌ Network error. Please check:\n1. Server is running\n2. CORS is enabled\n3. API endpoint is correct");
             } finally {
                 // Re-enable submit button
                 if (submitBtn) {
                     submitBtn.disabled = false;
-                    submitBtn.textContent = "Send Message";
+                    submitBtn.innerHTML = originalText;
                 }
             }
         });
@@ -296,8 +319,6 @@ function initializeApp() {
     phoneLinks.forEach(link => {
         link.addEventListener('click', () => {
             console.log('Phone number clicked:', link.href);
-            // In production, you might want to track this with analytics
-            // Example: gtag('event', 'phone_click', { phone_number: link.href });
         });
     });
 
