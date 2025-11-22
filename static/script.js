@@ -163,7 +163,7 @@ function initializeApp() {
 
             // Determine the API URL based on environment
             const apiUrl = window.location.hostname === 'localhost' 
-                ? 'http://localhost:5000/api/contact'
+                ? 'http://localhost:5000/api/contact' // For local development modify to production URL
                 : '/api/contact';
 
             console.log("🌐 Sending to:", apiUrl);
@@ -379,7 +379,7 @@ function initializeApp() {
 
     console.log('%c🌿 Jayid Botamed Health Care', 'font-size: 20px; color: #2E8B57; font-weight: bold;');
     console.log('%cWebsite loaded successfully!', 'font-size: 14px; color: #3CBEDC;');
-    console.log('%cFor support, call: 7523834 / 2725128', 'font-size: 12px; color: #6C757D;');
+    console.log('%cFor support, call: 7523834 ', 'font-size: 12px; color: #6C757D;');
     console.log('%cTheme: ' + (document.documentElement.getAttribute('data-theme') || 'light'), 'font-size: 12px; color: #2E8B57;');
 }
 
